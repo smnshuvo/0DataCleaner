@@ -10,13 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:0data.helloWorld"
+        "onCommand:0data.helloWorld",
+		"onCommand:0data.loadExcel"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [{
             "command": "0data.helloWorld",
             "title": "Hello World"
+
+		},
+		{
+            "command": "0data.loadExcel",
+            "title": "Load Excel"
 
 		}]
 	},

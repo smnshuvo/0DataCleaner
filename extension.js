@@ -18,14 +18,20 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('0data.helloWorld', showWelcomeMessage);
+	let loadExcel = vscode.commands.registerCommand('0data.loadExcel', loadFile);
 
 	context.subscriptions.push(disposable);
+	context.subscriptions.push(loadExcel);
 }
 
 function showWelcomeMessage(){
 	// Display a message box to the user
 	vscode.window.showInformationMessage('Hello from 0DataCleaner!');
 
+}
+
+function loadFile(){
+	vscode.window.showInformationMessage('Excel file is being loaded!');
 }
 
 // this method is called when your extension is deactivated
