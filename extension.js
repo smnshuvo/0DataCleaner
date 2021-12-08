@@ -34,21 +34,17 @@ function showWelcomeMessage(){
 }
 
 function HandleMissingValues(filePath){
-	console.log(filePath);
+	var xlsx = require('xlsx');
+	var excelFile = xlsx.readFile(filePath);
+	// read the first sheet of that excel file
+	var firstSheetName = excelFile.SheetNames[0];
+	// convert this to json
+	// working with json will be much easier
+	var jsonObjOfSheet = xlsx.utils.sheet_to_json(excelFile.Sheets[firstSheetName]);
+	var jsonOfSheet = JSON.stringify(jsonObjOfSheet);
+	
 }
 
-function loadFile(){
-	var xlsx = require('node-xlsx');
-	xlsx.parse('C:/Users/Shuvo/Desktop/New folder/test.xlsx');
-	vscode.window.showInformationMessage('Excel file is being loaded!');
-	getFilePath();
-}
-
-
-async function getFilePath(){	
-		let selectedFile = await vscode.window.showOpenDialog();
-		return selectedFile;
-}
 
 // this method is called when your extension is deactivated
 function deactivate() {}
