@@ -87,6 +87,7 @@
   },
   "dependencies": {
     "exceljs": "^4.3.0",
+    "json-as-xlsx": "^2.3.0",
     "node-xlsx": "^0.17.2",
     "read-excel-file": "^5.2.25"
   }

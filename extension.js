@@ -18,13 +18,11 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('0data.helloWorld', showWelcomeMessage);
-	let loadExcel = vscode.commands.registerCommand('0data.loadExcel', loadFile);
 		let handleMissingValues = vscode.commands.registerCommand('0data.handleMissing',(uri) => {
 			HandleMissingValues(uri.fsPath);
 		});
 
 	context.subscriptions.push(handleMissingValues);
-	context.subscriptions.push(loadExcel);
 }
 
 function showWelcomeMessage(){
@@ -38,11 +36,18 @@ function HandleMissingValues(filePath){
 	var excelFile = xlsx.readFile(filePath);
 	// read the first sheet of that excel file
 	var firstSheetName = excelFile.SheetNames[0];
-	// convert this to json
-	// working with json will be much easier
+	// convert the sheet to json
 	var jsonObjOfSheet = xlsx.utils.sheet_to_json(excelFile.Sheets[firstSheetName]);
-	var jsonOfSheet = JSON.stringify(jsonObjOfSheet);
+	console.log(JSON.stringify(jsonObjOfSheet));
+	removeBlankRows(jsonObjOfSheet);
+
 	
+}
+
+function removeBlankRows(jsonOfSheet){
+	// No of rows that has data
+	var actualRows = Object.keys(jsonOfSheet).length;
+	console.log(`The sheet has ${actualRows} non empty rows`);
 }
 
 
