@@ -48,21 +48,29 @@ function removeBlankRows(jsonOfSheet){
 	// No of rows that has data
 	var actualRows = Object.keys(jsonOfSheet).length;
 	console.log(`The sheet has ${actualRows} non empty rows`);
+	jsonToExcel(jsonOfSheet);
 }
 
 function jsonToExcel(jsonFile){
-	const xlsx = require("xlsx")//npm install xlsx
-	const fs = require("fs")//npm install fs
-	var raw = JSON.parse(jsonFile);
-	var files = [];
-	for (var each in raw){
-		files.push(raw[each]);
-	}
-	var obj = files.map((e) =>{
-        return e
-    });
-	// new workbook
-	var newWB = xlsx.utils.book_new();
+	let XLSX = require('xlsx');
+	const workSheet = XLSX.utils.json_to_sheet(jsonFile);
+	const workBook = XLSX.utils.book_new();
+	XLSX.utils.book_append_sheet(workBook, workSheet, "0data");
+
+	// Generate buffer
+	XLSX.write(workBook, {bookType: 'xlsx', type: 'buffer'});
+
+	// Binary String
+	XLSX.write(workBook, {bookType: 'xlsx', type: 'binary'});
+
+	XLSX.writeFile(workBook, 'output.xlsx');
+
+
+	return workBook;
+	// read the first sheet of that excel file
+	var firstSheetName = excelFile.SheetNames[0];
+	console.log(firstSheetName);
+	
 }
 
 
