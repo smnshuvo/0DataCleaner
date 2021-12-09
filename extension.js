@@ -50,6 +50,21 @@ function removeBlankRows(jsonOfSheet){
 	console.log(`The sheet has ${actualRows} non empty rows`);
 }
 
+function jsonToExcel(jsonFile){
+	const xlsx = require("xlsx")//npm install xlsx
+	const fs = require("fs")//npm install fs
+	var raw = JSON.parse(jsonFile);
+	var files = [];
+	for (var each in raw){
+		files.push(raw[each]);
+	}
+	var obj = files.map((e) =>{
+        return e
+    });
+	// new workbook
+	var newWB = xlsx.utils.book_new();
+}
+
 
 // this method is called when your extension is deactivated
 function deactivate() {}
