@@ -51,25 +51,40 @@ function removeBlankRows(jsonOfSheet){
 	jsonToExcel(jsonOfSheet);
 }
 
-function jsonToExcel(jsonFile){
+async function jsonToExcel(jsonFile) {
 	let XLSX = require('xlsx');
 	const workSheet = XLSX.utils.json_to_sheet(jsonFile);
 	const workBook = XLSX.utils.book_new();
 	XLSX.utils.book_append_sheet(workBook, workSheet, "0data");
 
 	// Generate buffer
-	XLSX.write(workBook, {bookType: 'xlsx', type: 'buffer'});
+	let writeData = XLSX.write(workBook, {bookType: 'xlsx', type: 'buffer'});
+	
 
 	// Binary String
-	XLSX.write(workBook, {bookType: 'xlsx', type: 'binary'});
-
+	// XLSX.write(workBook, {bookType: 'xlsx', type: 'binary'});
+	// var writeData = Buffer.from(workBook, 'utf-8');
 	XLSX.writeFile(workBook, 'output.xlsx');
+
+	
+
+	// demo
+	const filePath = vscode.Uri.file('E://demo.xlsx');
+	vscode.window.showInformationMessage(filePath.toString());
+	const wsedit = new vscode.WorkspaceEdit();
+	
+	wsedit.createFile(filePath, { ignoreIfExists: true });
+	
+	vscode.workspace.applyEdit(wsedit);
+
+	// read that empty file and then write to it
+	await vscode.workspace.fs.writeFile(filePath, writeData);
+
+
 
 
 	return workBook;
-	// read the first sheet of that excel file
-	var firstSheetName = excelFile.SheetNames[0];
-	console.log(firstSheetName);
+	
 	
 }
 
