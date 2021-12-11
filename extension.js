@@ -47,6 +47,11 @@ function HandleMissingValues(filePath){
 	removeBlankRows(jsonObjOfSheet);	
 }
 
+/**
+ * 
+ * @param {*} filePath takes a string which is the location of the excel file
+ * @returns the json object of that file
+ */
 function getJsonOfFile(filePath){
 	var xlsx = require('xlsx');
 	var excelFile = xlsx.readFile(filePath);
@@ -72,6 +77,12 @@ function getKeysOfJson(jsonObj){
 	return new Set(keyArray);
 
 }
+/**
+ * @brief
+ * This method fills the empty cells of a column with zero.
+ * @param {*} filePath takes a string which has the path of file 
+ * @returns void
+ */
 async function fillWithZero(filePath){
 	let jsonObj = getJsonOfFile(filePath);
 	console.log(JSON.stringify(jsonObj));
@@ -87,6 +98,21 @@ async function fillWithZero(filePath){
 		return;
 	}
 	vscode.window.showInformationMessage('Filling the values with zero!' + input);
+
+	// fills the json object with a value of zero
+	jsonObj.forEach((obj)=>{
+		if(!obj.hasOwnProperty(input)){
+			obj[input] = 0;
+
+		}
+	});
+
+	// Save the file to disk
+	jsonToExcelBuffer(jsonObj).then((buffer)=>{
+		saveBufferToFile(buffer);
+	});
+
+	
 }
 
 function removeBlankRows(jsonOfSheet){
