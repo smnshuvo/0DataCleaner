@@ -191,8 +191,13 @@ async function fillWithAverage(filePath){
 	let count = 0, average = 0, total = 0;
 	jsonObj.forEach((obj)=>{
 		if(obj.hasOwnProperty(input)){
+			if(isNumber(obj[input])){
 			total += obj[input];
 			count++;
+			} else{
+				vscode.window.showErrorMessage("Can only calculate the average of integers and float!");
+				return;
+			}
 		}
 	});
 	
@@ -214,6 +219,23 @@ async function fillWithAverage(filePath){
 
 }
 
+
+/**
+ * 
+ * @param {*} n takes a number n as input
+ * @returns true or false
+ */
+ function isInt(n){
+    return Number(n) === n && n % 1 === 0;
+}
+
+function isFloat(n){
+    return Number(n) === n && n % 1 !== 0;
+}
+
+function isNumber(n){
+    return isInt(n) || isFloat(n);
+}
 
 // this method is called when your extension is deactivated
 function deactivate() {}
