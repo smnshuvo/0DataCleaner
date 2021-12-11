@@ -15,7 +15,8 @@
     "onCommand:0data.removeDuplicate",
     "onCommand:0data.fixStructure",
     "onCommand:0data.cleanEmptyRows",
-    "onCommand:0data.fillWithZero"
+    "onCommand:0data.fillWithZero",
+    "onCommand:0data.fillWithAverage"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -43,9 +44,9 @@
       {
         "command": "0data.fillWithZero",
         "title": "0Data: Fill Missing Values With Zero"
-      },
+      },      
       {
-        "command": "0data.cleanEmptyRows",
+        "command": "0data.fillWithAverage",
         "title": "0Data: Fill Missing Values With Average"
       }
       
@@ -76,6 +77,11 @@
         {
           "when": "resourceExtname == .xls || resourceExtname == .xlsx",
           "command": "0data.fillWithZero",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
+          "command": "0data.fillWithAverage",
           "group": "navigation"
         }
       ]

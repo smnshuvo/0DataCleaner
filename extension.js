@@ -26,8 +26,13 @@ function activate(context) {
 			fillWithZero(uri.fsPath);
 		});
 
+		let fillBlanksWithAverage = vscode.commands.registerCommand('0data.fillWithAverage',(uri) => {
+			fillWithAverage(uri.fsPath);
+		});
+
 	context.subscriptions.push(handleMissingValues);
 	context.subscriptions.push(fillBlanksWithZero);
+	context.subscriptions.push(fillBlanksWithAverage);
 }
 
 function showWelcomeMessage(){
@@ -126,7 +131,12 @@ function removeBlankRows(jsonOfSheet){
 	
 }
 
-// returns excel buffer of json file
+ 
+/**
+ * 
+ * @param {*} jsonFile takes a json a file as input
+ * @returns excel buffer of json file
+ */
 async function jsonToExcelBuffer(jsonFile) {
 	let XLSX = require('xlsx');
 	const workSheet = XLSX.utils.json_to_sheet(jsonFile);
@@ -143,6 +153,11 @@ async function jsonToExcelBuffer(jsonFile) {
 	
 }
 
+/**
+ * 
+ * @param {*} buffer takes a buffer as input
+ * doesn't return anything but saves the file to the disk
+ */
 async function saveBufferToFile(buffer){
 	// demo
 	const filePath = vscode.Uri.file('E://demo.xlsx');
@@ -157,6 +172,48 @@ async function saveBufferToFile(buffer){
 	await vscode.workspace.fs.writeFile(filePath, buffer);
 }
 
+/**
+ * 
+ * @param {*} filePath takes the file path as String
+ */
+async function fillWithAverage(filePath){
+	let jsonObj = getJsonOfFile(filePath);
+	let keySet = getKeysOfJson(jsonObj);	
+		vscode.window.showInformationMessage('Enter the column name' + "\n");
+			const input = await vscode.window.showInputBox();
+				if(!keySet.has(input)){
+					vscode.window.showInformationMessage('The column doesn\'t exist!!!');
+						return;
+					}
+	vscode.window.showInformationMessage('Filling the values with zero!' + input);
+
+	//TODO: Move this to another method
+	let count = 0, average = 0, total = 0;
+	jsonObj.forEach((obj)=>{
+		if(obj.hasOwnProperty(input)){
+			total += obj[input];
+			count++;
+		}
+	});
+	
+	average = total/count;
+	console.log(`Total: ${total}, Average: ${average}, Count: ${count}\n`);
+
+	// fills the json object with a value of zero
+	jsonObj.forEach((obj)=>{
+		if(!obj.hasOwnProperty(input)){
+			obj[input] = average;
+
+		}
+	});
+
+	// Save the file to disk
+	jsonToExcelBuffer(jsonObj).then((buffer)=>{
+		saveBufferToFile(buffer);
+	});
+
+}
+
 
 // this method is called when your extension is deactivated
 function deactivate() {}
@@ -165,3 +222,5 @@ module.exports = {
 	activate,
 	deactivate
 }
+
+
