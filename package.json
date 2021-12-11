@@ -29,7 +29,7 @@
       },
       {
         "command": "0data.handleMissing",
-        "title": "0Data: Handle Missing Data"
+        "title": "0Data: Clean Empty Rows"
       },
       {
         "command": "0data.removeDuplicate",
@@ -40,9 +40,15 @@
         "title": "0Data: Fix Structure"
       },
       {
+        "command": "0data.fillWithZero",
+        "title": "0Data: Fill Missing Values With Zero"
+      },
+      {
         "command": "0data.cleanEmptyRows",
-        "title": "0Data: Clean Empty Rows"
+        "title": "0Data: Fill Missing Values With Average"
       }
+      
+      
     ],
     "menus": {
       "explorer/context": [

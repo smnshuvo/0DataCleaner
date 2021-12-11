@@ -48,10 +48,15 @@ function removeBlankRows(jsonOfSheet){
 	// No of rows that has data
 	var actualRows = Object.keys(jsonOfSheet).length;
 	console.log(`The sheet has ${actualRows} non empty rows`);
-	jsonToExcel(jsonOfSheet);
+	
+	jsonToExcelBuffer(jsonOfSheet).then((e)=>{
+		saveBufferToFile(e);
+	});
+	
 }
 
-async function jsonToExcel(jsonFile) {
+// returns excel buffer of json file
+async function jsonToExcelBuffer(jsonFile) {
 	let XLSX = require('xlsx');
 	const workSheet = XLSX.utils.json_to_sheet(jsonFile);
 	const workBook = XLSX.utils.book_new();
@@ -59,15 +64,15 @@ async function jsonToExcel(jsonFile) {
 
 	// Generate buffer
 	let writeData = XLSX.write(workBook, {bookType: 'xlsx', type: 'buffer'});
-	
-
-	// Binary String
-	// XLSX.write(workBook, {bookType: 'xlsx', type: 'binary'});
-	// var writeData = Buffer.from(workBook, 'utf-8');
-	XLSX.writeFile(workBook, 'output.xlsx');
 
 	
 
+	return writeData;
+	
+	
+}
+
+async function saveBufferToFile(buffer){
 	// demo
 	const filePath = vscode.Uri.file('E://demo.xlsx');
 	vscode.window.showInformationMessage(filePath.toString());
@@ -78,14 +83,7 @@ async function jsonToExcel(jsonFile) {
 	vscode.workspace.applyEdit(wsedit);
 
 	// read that empty file and then write to it
-	await vscode.workspace.fs.writeFile(filePath, writeData);
-
-
-
-
-	return workBook;
-	
-	
+	await vscode.workspace.fs.writeFile(filePath, buffer);
 }
 
 
