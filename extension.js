@@ -47,8 +47,46 @@ function HandleMissingValues(filePath){
 	removeBlankRows(jsonObjOfSheet);	
 }
 
-function fillWithZero(filePath){
-	vscode.window.showInformationMessage('Filling the values with zero!');
+function getJsonOfFile(filePath){
+	var xlsx = require('xlsx');
+	var excelFile = xlsx.readFile(filePath);
+	// read the first sheet of that excel file
+	var firstSheetName = excelFile.SheetNames[0];
+	// convert the sheet to json
+	return xlsx.utils.sheet_to_json(excelFile.Sheets[firstSheetName]);
+}
+
+
+/**
+ * 
+ * @param {*} jsonObj receives a json objects
+ * @returns a set of keys
+ */
+function getKeysOfJson(jsonObj){
+	let keyArray = jsonObj.reduce(function(keys, element){
+		for(let key in element){
+			keys.push(key);
+		}
+		return keys;
+	},[]);
+	return new Set(keyArray);
+
+}
+async function fillWithZero(filePath){
+	let jsonObj = getJsonOfFile(filePath);
+	console.log(JSON.stringify(jsonObj));
+
+	console.log(getKeysOfJson(jsonObj));
+
+	let keySet = getKeysOfJson(jsonObj);
+	
+	vscode.window.showInformationMessage('Enter the column name' + "\n");
+	const input = await vscode.window.showInputBox();
+	if(!keySet.has(input)){
+		vscode.window.showInformationMessage('The column doesn\'t exist!!!');
+		return;
+	}
+	vscode.window.showInformationMessage('Filling the values with zero!' + input);
 }
 
 function removeBlankRows(jsonOfSheet){
