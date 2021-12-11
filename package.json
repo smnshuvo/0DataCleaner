@@ -14,7 +14,8 @@
     "onCommand:0data.handleMissing",
     "onCommand:0data.removeDuplicate",
     "onCommand:0data.fixStructure",
-    "onCommand:0data.cleanEmptyRows"
+    "onCommand:0data.cleanEmptyRows",
+    "onCommand:0data.fillWithZero"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -70,6 +71,11 @@
         {
           "when": "resourceExtname == .xls || resourceExtname == .xlsx",
           "command": "0data.cleanEmptyRows",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
+          "command": "0data.fillWithZero",
           "group": "navigation"
         }
       ]

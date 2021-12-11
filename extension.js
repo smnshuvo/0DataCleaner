@@ -21,8 +21,13 @@ function activate(context) {
 		let handleMissingValues = vscode.commands.registerCommand('0data.handleMissing',(uri) => {
 			HandleMissingValues(uri.fsPath);
 		});
+		
+		let fillBlanksWithZero = vscode.commands.registerCommand('0data.fillWithZero',(uri) => {
+			fillWithZero(uri.fsPath);
+		});
 
 	context.subscriptions.push(handleMissingValues);
+	context.subscriptions.push(fillBlanksWithZero);
 }
 
 function showWelcomeMessage(){
@@ -39,9 +44,11 @@ function HandleMissingValues(filePath){
 	// convert the sheet to json
 	var jsonObjOfSheet = xlsx.utils.sheet_to_json(excelFile.Sheets[firstSheetName]);
 	console.log(JSON.stringify(jsonObjOfSheet));
-	removeBlankRows(jsonObjOfSheet);
+	removeBlankRows(jsonObjOfSheet);	
+}
 
-	
+function fillWithZero(filePath){
+	vscode.window.showInformationMessage('Filling the values with zero!');
 }
 
 function removeBlankRows(jsonOfSheet){
@@ -49,8 +56,8 @@ function removeBlankRows(jsonOfSheet){
 	var actualRows = Object.keys(jsonOfSheet).length;
 	console.log(`The sheet has ${actualRows} non empty rows`);
 	
-	jsonToExcelBuffer(jsonOfSheet).then((e)=>{
-		saveBufferToFile(e);
+	jsonToExcelBuffer(jsonOfSheet).then((buffer)=>{
+		saveBufferToFile(buffer);
 	});
 	
 }
@@ -75,7 +82,7 @@ async function jsonToExcelBuffer(jsonFile) {
 async function saveBufferToFile(buffer){
 	// demo
 	const filePath = vscode.Uri.file('E://demo.xlsx');
-	vscode.window.showInformationMessage(filePath.toString());
+	vscode.window.showInformationMessage("File was exported as output.xlsx");
 	const wsedit = new vscode.WorkspaceEdit();
 	
 	wsedit.createFile(filePath, { ignoreIfExists: true });
