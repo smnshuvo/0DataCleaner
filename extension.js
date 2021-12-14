@@ -30,9 +30,14 @@ function activate(context) {
 			fillWithAverage(uri.fsPath);
 		});
 
+		let viewExcelFile = vscode.commands.registerCommand('0data.viewFile', (uri) => {
+			visualizeExcelFile(uri.fsPath);
+		});
+
 	context.subscriptions.push(handleMissingValues);
 	context.subscriptions.push(fillBlanksWithZero);
 	context.subscriptions.push(fillBlanksWithAverage);
+	context.subscriptions.push(viewExcelFile);
 }
 
 function showWelcomeMessage(){
@@ -120,6 +125,11 @@ async function fillWithZero(filePath){
 	
 }
 
+/**
+ * @brief
+ * This method removes the blank rows of excel file
+ * @param {*} jsonOfSheet takes the json of the sheet as input * 
+ */
 function removeBlankRows(jsonOfSheet){
 	// No of rows that has data
 	var actualRows = Object.keys(jsonOfSheet).length;
@@ -219,6 +229,78 @@ async function fillWithAverage(filePath){
 
 }
 
+function visualizeExcelFile(fsPath) {
+	
+	const panel = vscode.window.createWebviewPanel(
+        'catCoding',
+        "Powered by 0Data",
+        vscode.ViewColumn.One,
+        {
+          // Enable scripts in the webview
+          enableScripts: true
+        }
+      );
+
+      panel.webview.html = getWebviewContent(getJsonOfFile(fsPath));
+}
+
+
+function getWebviewContent(jsonObj) {
+	let tableHeaders = Array.from(getKeysOfJson(jsonObj));
+	let keys = JSON.stringify(tableHeaders);
+	console.log(JSON.parse(keys));
+	
+	
+	
+	
+	return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Cat Coding</title>
+
+	  <style>
+		tr, td{
+			color: #FFF;
+			min-width: 20px;
+			border: 1px dotted #FFF;
+		}
+	  </style>
+  </head>
+  <body>
+	  <table id="table">
+		
+	  </table>
+  
+	  <script>
+			
+		
+			var table = document.getElementById("table");	
+			let th = table.createTHead();
+			let	tr = th.insertRow(0);	
+			let keys = Array.from(JSON.parse(JSON.stringify(${keys})));
+				
+			
+		    for(let x=0; x<keys.length;x++){
+				
+				tc = tr.insertCell(0);
+				tc.innerHTML = keys[keys.length-x-1];
+						
+			}	  
+		  	for (let item of ${JSON.stringify(jsonObj)}) {
+			row = table.insertRow(-1);
+			for (let key in item) {
+				var cell = row.insertCell(-1);
+				cell.innerHTML = item[key];
+			}
+		}
+	  </script>
+  </body>
+  </html>`;
+  
+  }
+
 
 /**
  * 
@@ -244,5 +326,7 @@ module.exports = {
 	activate,
 	deactivate
 }
+
+
 
 

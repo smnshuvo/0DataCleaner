@@ -16,7 +16,8 @@
     "onCommand:0data.fixStructure",
     "onCommand:0data.cleanEmptyRows",
     "onCommand:0data.fillWithZero",
-    "onCommand:0data.fillWithAverage"
+    "onCommand:0data.fillWithAverage",
+    "onCommand:0data.viewFile"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -48,6 +49,10 @@
       {
         "command": "0data.fillWithAverage",
         "title": "0Data: Fill Missing Values With Average"
+      },
+      {
+        "command": "0data.viewFile",
+        "title": "0Data: Show Contents"
       }
       
       
@@ -82,6 +87,11 @@
         {
           "when": "resourceExtname == .xls || resourceExtname == .xlsx",
           "command": "0data.fillWithAverage",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
+          "command": "0data.viewFile",
           "group": "navigation"
         }
       ]
