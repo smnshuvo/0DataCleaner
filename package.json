@@ -17,7 +17,8 @@
     "onCommand:0data.cleanEmptyRows",
     "onCommand:0data.fillWithZero",
     "onCommand:0data.fillWithAverage",
-    "onCommand:0data.viewFile"
+    "onCommand:0data.viewFile",
+    "onCommand:0data.deDuplication"
   ],
   "main": "./extension.js",
   "contributes": {
@@ -53,6 +54,10 @@
       {
         "command": "0data.viewFile",
         "title": "0Data: Show Contents"
+      },
+      {
+        "command": "0data.deDuplication",
+        "title": "0Data: Deduplication"
       }
       
       
@@ -92,6 +97,11 @@
         {
           "when": "resourceExtname == .xls || resourceExtname == .xlsx",
           "command": "0data.viewFile",
+          "group": "navigation"
+        },
+        {
+          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
+          "command": "0data.deDuplication",
           "group": "navigation"
         }
       ]

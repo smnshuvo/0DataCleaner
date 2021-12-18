@@ -1,5 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+const { off } = require('process');
 const vscode = require('vscode');
 
 // this method is called when your extension is activated
@@ -34,10 +35,15 @@ function activate(context) {
 			visualizeExcelFile(uri.fsPath);
 		});
 
+		let deDuplicate = vscode.commands.registerCommand('0data.deDuplication', (uri) => {
+			deDuplicateExcelFile(uri.fsPath);
+		});
+
 	context.subscriptions.push(handleMissingValues);
 	context.subscriptions.push(fillBlanksWithZero);
 	context.subscriptions.push(fillBlanksWithAverage);
 	context.subscriptions.push(viewExcelFile);
+	context.subscriptions.push(deDuplicate);
 }
 
 function showWelcomeMessage(){
@@ -304,6 +310,41 @@ function getWebviewContent(jsonObj) {
   </html>`;
   
   }
+
+  function deDuplicateExcelFile(filePath){
+	let file = getJsonOfFile(filePath);
+	let newFile = [];
+	file.forEach((f)=>{
+		// TODO: fix unequal param rows
+		if(countEqual(file, f) <= 1){
+			//TODO: Need more logic here
+			newFile.push(f);
+		}
+		
+	});
+	console.log(newFile);
+  }
+/**
+ * @brief
+ * The function is more like an equatity operator of my json
+ * arrays
+ * @param {*} oo Receives the full list
+ * @param {*} pp the object to compare with the whole list
+ * @returns how many matches are common with this database
+ */
+  function countEqual(oo, pp) {
+    var count = 0;
+    oo.forEach(function (el) {
+        var i, equal = true;
+        for (i in el) {
+            equal = equal && el[i] === pp[i];
+        }
+        equal && count++;
+		
+    });
+	
+    return count;
+}
 
 
 /**
