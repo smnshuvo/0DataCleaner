@@ -261,11 +261,15 @@ function getWebviewContent(jsonObj) {
 	  <title>Cat Coding</title>
 
 	  <style>
+	  
 		tr, td{
 			color: #FFF;
 			min-width: 20px;
-			border: 1px dotted #FFF;
+			border: 1px dotted #03A062 ;
+			text-align: center;
+			background-color: #000;
 		}
+		
 	  </style>
   </head>
   <body>
