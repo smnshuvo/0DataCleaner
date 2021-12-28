@@ -19,8 +19,8 @@ No third party extension needed. You can use 0Data's default viewer to visualize
 
 #### Before
 
-![Alt text](shots/clean_empty_before?raw=true "Before")
+![Alt text](shots/clean_empty_before.png?raw=true "Before")
 
 #### After
 
-![Alt text](shots/clean_empty_after?raw=true "Before")
+![Alt text](shots/clean_empty_after.png?raw=true "Before")
