@@ -33,4 +33,14 @@ No third party extension needed. You can use 0Data's default viewer to visualize
 
 #### After
 
-![Alt text](shots/deduplication_after.png?raw=true "Before")
+![Alt text](shots/deduplication_after.png?raw=true "After")
+
+### Fill Missing Values with Average
+
+#### Before
+
+![Alt text](shots/fill_missing_with_average.png?raw=true "Before")
+
+#### After
+
+![Alt text](shots/fill_missing_with_average_after.png?raw=true "After")
