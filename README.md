@@ -14,3 +14,13 @@ The list of operation that can be done with the current version of my extension
 ### Visualizing Data
 No third party extension needed. You can use 0Data's default viewer to visualize the excel sheet without reopening MS Excel (or simiar app) again and again. 0Data can handle simple excel files. xD
 ![Alt text](shots/visualize.png?raw=true "Visualize")
+
+### Removing Empty Rows
+
+#### Before
+
+![Alt text](shots/clean_empty_before?raw=true "Before")
+
+#### After
+
+![Alt text](shots/clean_empty_after?raw=true "Before")
