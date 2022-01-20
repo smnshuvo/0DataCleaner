@@ -34,15 +34,8 @@
       {
         "command": "0data.handleMissing",
         "title": "0Data: Clean Empty Rows"
-      },
-      {
-        "command": "0data.removeDuplicate",
-        "title": "0Data: Remove Duplicate Entry"
-      },
-      {
-        "command": "0data.fixStructure",
-        "title": "0Data: Fix Structure"
-      },
+      },      
+      
       {
         "command": "0data.fillWithZero",
         "title": "0Data: Fill Missing Values With Zero"
@@ -69,21 +62,9 @@
           "command": "0data.handleMissing",
           "group": "navigation"
         },
-        {
-          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
-          "command": "0data.removeDuplicate",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
-          "command": "0data.fixStructure",
-          "group": "navigation"
-        },
-        {
-          "when": "resourceExtname == .xls || resourceExtname == .xlsx",
-          "command": "0data.cleanEmptyRows",
-          "group": "navigation"
-        },
+       
+        
+       
         {
           "when": "resourceExtname == .xls || resourceExtname == .xlsx",
           "command": "0data.fillWithZero",

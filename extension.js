@@ -332,6 +332,9 @@ function getWebviewContent(jsonObj) {
 
 				});
 				console.log(newFile);
+				jsonToExcelBuffer(newFile).then((out)=>{
+					saveBufferToFile(out);
+				});
 	  }
 	});
 	
